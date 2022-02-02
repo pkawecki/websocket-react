@@ -8,14 +8,8 @@ function TodoList() {
   //State declaration
   const [todos, setTodos] = useState([]);
 
-  //Refs
-  // const todosRef = React.createRef();
-  // todosRef.current = todos;
-
   useEffect(() => {
     //Socket declaration
-
-    // updateServer();
     socket.on("updateData", (data) => {
       console.log("updateData at connection with server: ", [...data]);
       setTodos(data);
@@ -31,7 +25,18 @@ function TodoList() {
     setTodos(newTodos);
     console.log("emitting taksk to the server: ", todo);
     socket.emit("serverAddTask", todo);
-    // console.log(...todos);
+  };
+
+  const updateTodo = (todoId, newValue) => {
+    if (!newValue.text || /^\s*$/.test(newValue.text)) {
+      return;
+    }
+
+    newValue.id = todoId;
+    setTodos((prev) =>
+      prev.map((item) => (item.id === todoId ? newValue : item))
+    );
+    socket.emit("serverUpdateTask", { todoId, newValue });
   };
 
   const removeTodo = (id) => {
@@ -45,7 +50,7 @@ function TodoList() {
     <>
       <h1>Feelin' productive today?</h1>
       <TodoForm onSubmit={addTodo} />
-      <Todo todos={todos} removeTodo={removeTodo} />
+      <Todo todos={todos} removeTodo={removeTodo} updateTodo={updateTodo} />
     </>
   );
 }

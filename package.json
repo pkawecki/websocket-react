@@ -1,0 +1,24 @@
+{
+  "name": "websocket-react",
+  "version": "1.0.0",
+  "description": "Before you start, make sure you run in both directories ('React-Todo-App' and 'server'):",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"cd server && npm start\" \"cd React-Todo-App && npm start\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pkawecki/websocket-react.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pkawecki/websocket-react/issues"
+  },
+  "homepage": "https://github.com/pkawecki/websocket-react#readme",
+  "dependencies": {
+    "concurrently": "^7.0.0"
+  }
+}

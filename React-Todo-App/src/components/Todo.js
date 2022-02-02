@@ -1,28 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import TodoForm from "./TodoForm";
 import { RiCloseCircleLine } from "react-icons/ri";
-// import { io } from "socket.io-client";
+import { TiEdit } from "react-icons/ti";
 
-function Todo({ todos, removeTodo }) {
-  // const socket = io("http://localhost:7000");
+function Todo({ todos, removeTodo, updateTodo }) {
+  const [edit, setEdit] = useState({
+    id: null,
+    value: "",
+  });
 
-  // const clickFunc = () => {
-  //   console.log("emitting");
-  //   socket.emit("my-event", { id: 69 });
-  // };
+  const submitUpdate = (value) => {
+    updateTodo(edit.id, value);
+    setEdit({
+      id: null,
+      value: "",
+    });
+  };
 
-  // const updateServer = () => {
-  //   console.log("updating server with todos,", todos);
-  //   socket.emit("updateServer", [...todos]);
-  // };
-
-  // useEffect(() => {
-  //   // updateServer();
-  //   socket.on("message", (data) => {
-  //     console.log("message from server: ", [...data]);
-  //     // todos = [...data];
-
-  //   });
-  // });
+  if (edit.id) {
+    return <TodoForm edit={edit} onSubmit={submitUpdate} />;
+  }
 
   return todos.map((todo, index) => (
     <div className="todo-row" key={index}>
@@ -39,6 +36,10 @@ function Todo({ todos, removeTodo }) {
         <RiCloseCircleLine
           onClick={() => removeTodo(todo.id)}
           className="delete-icon"
+        />
+        <TiEdit
+          onClick={() => setEdit({ id: todo.id, value: todo.text })}
+          className="edit-icon"
         />
       </div>
     </div>

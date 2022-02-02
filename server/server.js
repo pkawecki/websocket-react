@@ -42,6 +42,16 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("updateData", taskList);
   });
 
+  socket.on("serverUpdateTask", (data) => {
+    console.log("sut: ", data);
+    taskList.map((element) => {
+      element.id == data.newValue.id
+        ? (element.text = data.newValue.text)
+        : null;
+    });
+    socket.broadcast.emit("updateData", taskList);
+  });
+
   socket.on("disconnect", () => {
     socket.removeAllListeners();
   });
