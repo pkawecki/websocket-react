@@ -36,12 +36,13 @@ io.on("connection", (socket) => {
     console.log(taskList);
     socket.broadcast.emit("updateData", taskList);
   });
+  socket.on("serverAddTask", (task) => {
+    console.log("adding received");
+    taskList = [task, ...taskList];
+    socket.broadcast.emit("updateData", taskList);
+  });
 
-  // socket.on("updateServer", (todo) => {
-  //   if (!todo) {
-  //     console.log("todo is empty");
-  //   }
-  //   taskList = [...taskList, ...todo];
-  //   console.log("taskList", taskList);
-  // });
+  socket.on("disconnect", () => {
+    socket.removeAllListeners();
+  });
 });
